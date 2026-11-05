@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react';
 import SiteHeader from '@/components/SiteHeader';
 import Hero from '@/components/Hero';
 import ProblemSection from '@/components/ProblemSection';
@@ -9,8 +10,17 @@ import ImpactSection from '@/components/ImpactSection';
 import StoriesSection from '@/components/StoriesSection';
 import GetInvolvedSection from '@/components/GetInvolvedSection';
 import SiteFooter from '@/components/SiteFooter';
+import DemoDialog from '@/components/DemoDialog';
+import { DEMO_FLOWS, type DemoFlow } from '@/data/content';
 
 function App() {
+  const [activeFlow, setActiveFlow] = useState<DemoFlow | null>(null);
+  const closeDemo = useCallback(() => setActiveFlow(null), []);
+  const openDemo = useCallback((flowId: DemoFlow['id']) => {
+    const flow = DEMO_FLOWS.find((item) => item.id === flowId);
+    if (flow) setActiveFlow(flow);
+  }, []);
+
   return (
     <div className="min-h-screen bg-ivory-100">
       <a
@@ -21,7 +31,7 @@ function App() {
       </a>
       <SiteHeader />
       <main id="main">
-        <Hero />
+        <Hero onOpenFlow={openDemo} />
         <ProblemSection />
         <SolutionSection />
         <HowItWorks />
@@ -29,9 +39,10 @@ function App() {
         <JourneyOfAMeal />
         <ImpactSection />
         <StoriesSection />
-        <GetInvolvedSection />
+        <GetInvolvedSection onOpenFlow={openDemo} />
       </main>
       <SiteFooter />
+      {activeFlow && <DemoDialog key={activeFlow.id} flow={activeFlow} onClose={closeDemo} />}
     </div>
   );
 }

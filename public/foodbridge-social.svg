@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#F5F0E6"/>
+  <circle cx="1040" cy="90" r="260" fill="#D9B86C" opacity=".55"/>
+  <circle cx="1090" cy="610" r="260" fill="#D96D43" opacity=".16"/>
+  <path d="M0 520 C250 430 390 650 650 520 S980 420 1200 500 V630 H0Z" fill="#183D32"/>
+  <text x="88" y="170" fill="#D96D43" font-family="Arial,sans-serif" font-size="24" font-weight="700" letter-spacing="7">FOOD • PEOPLE • COMMUNITY</text>
+  <text x="82" y="300" fill="#183D32" font-family="Georgia,serif" font-size="88">Good food deserves</text>
+  <text x="82" y="405" fill="#183D32" font-family="Georgia,serif" font-size="88" font-style="italic">a destination.</text>
+  <text x="90" y="570" fill="#F5F0E6" font-family="Arial,sans-serif" font-size="27" letter-spacing="3">FOODBRIDGE</text>
+  <text x="860" y="570" fill="#F5F0E6" font-family="Arial,sans-serif" font-size="18">SURPLUS → SHARED</text>
+</svg>

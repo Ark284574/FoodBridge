@@ -82,7 +82,14 @@ export default function JourneyOfAMeal() {
 
         <div className="mt-16 sm:mt-20">
           <div className="relative">
-            <div className="absolute inset-x-7 top-7 h-px bg-ivory-100/20" aria-hidden="true">
+            <div
+              className="absolute inset-x-7 top-7 h-px bg-ivory-100/20"
+              role="progressbar"
+              aria-label="Meal journey progress"
+              aria-valuemin={0}
+              aria-valuemax={LAST_INDEX}
+              aria-valuenow={index}
+            >
               <div
                 className="absolute inset-y-0 left-0 bg-harvest-400 transition-[width] duration-700 ease-settle"
                 style={{ width: `${progress}%` }}
@@ -149,7 +156,7 @@ export default function JourneyOfAMeal() {
             <p className="text-sm font-medium text-harvest-300" aria-live="polite">
               Step {index + 1} of {JOURNEY_STEPS.length}
             </p>
-            <div key={index} className="hero-enter mt-4 min-h-[9.5rem] sm:min-h-[8.5rem]">
+            <div key={index} aria-live="polite" aria-atomic="true" className="hero-enter mt-4 min-h-[9.5rem] sm:min-h-[8.5rem]">
               <h3 className="display text-3xl leading-tight sm:text-4xl">{step.title}</h3>
               <p className="mt-4 text-base leading-relaxed text-ivory-200 sm:text-lg">{step.body}</p>
             </div>

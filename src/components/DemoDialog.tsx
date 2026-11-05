@@ -15,9 +15,12 @@ export default function DemoDialog({ flow, onClose }: DemoDialogProps) {
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-    dialog.showModal();
+    if (!dialog.open) dialog.showModal();
     dialog.addEventListener('close', onClose);
-    return () => dialog.removeEventListener('close', onClose);
+    return () => {
+      dialog.removeEventListener('close', onClose);
+      if (dialog.open) dialog.close();
+    };
   }, [onClose]);
 
   const handleBackdropClick = (event: MouseEvent<HTMLDialogElement>) => {
@@ -106,14 +109,26 @@ function DemoFieldInput({ flowId, field }: DemoFieldInputProps) {
         {field.label}
         {field.required && <span className="text-terracotta-700"> *</span>}
       </label>
-      <input
-        id={inputId}
-        name={field.name}
-        type={field.type === 'textarea' ? 'text' : field.type}
-        placeholder={field.placeholder}
-        required={field.required}
-        className={className}
-      />
+      {field.type === 'textarea' ? (
+        <textarea
+          id={inputId}
+          name={field.name}
+          placeholder={field.placeholder}
+          required={field.required}
+          rows={4}
+          className={`${className} resize-y`}
+        />
+      ) : (
+        <input
+          id={inputId}
+          name={field.name}
+          type={field.type}
+          placeholder={field.placeholder}
+          required={field.required}
+          min={field.type === 'number' ? 0 : undefined}
+          className={className}
+        />
+      )}
     </div>
   );
 }

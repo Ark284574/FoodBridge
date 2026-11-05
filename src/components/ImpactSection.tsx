@@ -29,8 +29,9 @@ export default function ImpactSection() {
               <div className="rounded-2xl border border-harvest-500/50 bg-harvest-50 p-5 text-sm leading-relaxed text-harvest-900">
                 <p className="font-bold">Illustrative figures only.</p>
                 <p className="mt-1">
-                  These are not measured results from FoodBridge. They show how the arithmetic works, using the two
-                  assumptions below.
+                  These are planning examples, not measured FoodBridge results or guaranteed meals. The meal-equivalent
+                  estimate assumes 0.5 kg per portion; actual portions depend on the food and serving size. The pickup
+                  estimate assumes a 60 kg load and would vary with vehicle and route capacity.
                 </p>
               </div>
             </Reveal>
@@ -66,11 +67,11 @@ export default function ImpactSection() {
 
             <dl className="mt-10 space-y-3 border-t border-ink-300/50 pt-6 text-sm text-ink-700">
               <div className="flex justify-between gap-4">
-                <dt>Assumed weight of one meal</dt>
+                <dt>Assumed weight per portion</dt>
                 <dd className="font-semibold text-ink-900">{KG_PER_MEAL} kg</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt>Assumed load for one pickup</dt>
+                <dt>Illustrative load per pickup</dt>
                 <dd className="font-semibold text-ink-900">{KG_PER_PICKUP} kg</dd>
               </div>
             </dl>
@@ -78,11 +79,11 @@ export default function ImpactSection() {
 
           <Reveal delay={150} className="grid gap-6 sm:grid-cols-2 lg:col-span-7 lg:content-center">
             <div className="rounded-3xl bg-forest-700 p-8 text-ivory-100 sm:p-10">
-              <p className="text-sm font-medium uppercase tracking-[0.18em] text-harvest-300">Possible meals</p>
+              <p className="text-sm font-medium uppercase tracking-[0.18em] text-harvest-300">Estimated meal-equivalents</p>
               <p className="mt-4 font-serif text-6xl leading-none sm:text-7xl" aria-live="polite">
                 {meals.toLocaleString('en-GB')}
               </p>
-              <p className="mt-4 text-sm leading-relaxed text-ivory-200">Per week, if all the food reaches a table.</p>
+              <p className="mt-4 text-sm leading-relaxed text-ivory-200">A weight-based estimate per week, assuming 0.5 kg per portion. Not a count of meals actually served.</p>
             </div>
             <div className="rounded-3xl bg-terracotta-50 p-8 text-terracotta-900 sm:p-10">
               <p className="text-sm font-medium uppercase tracking-[0.18em] text-terracotta-700">Pickups needed</p>

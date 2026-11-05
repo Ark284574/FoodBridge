@@ -14,6 +14,12 @@ export default function Reveal({ children, delay = 0, className = '' }: RevealPr
     const node = ref.current;
     if (!node) return;
 
+    // Keep content visible in older browsers or embedded previews without IntersectionObserver.
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

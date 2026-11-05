@@ -1,9 +1,14 @@
 import type { CSSProperties } from 'react';
 import { ArrowRight } from 'lucide-react';
+import type { DemoFlow } from '@/data/content';
+
+interface HeroProps {
+  onOpenFlow: (flowId: DemoFlow['id']) => void;
+}
 
 const enterDelay = (ms: number) => ({ '--enter-delay': `${ms}ms` }) as CSSProperties;
 
-export default function Hero() {
+export default function Hero({ onOpenFlow }: HeroProps) {
   return (
     <section id="top" className="relative overflow-hidden pb-20 pt-32 sm:pt-36 lg:pb-32 lg:pt-40">
       <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-10">
@@ -20,17 +25,19 @@ export default function Hero() {
             kitchens that can serve it, and plans the pickup in between.
           </p>
 
-          <div className="hero-enter mt-10 flex flex-col gap-3 sm:flex-row sm:items-center" style={enterDelay(360)}>
-            <a href="#get-involved" className="btn-primary">
+          <div className="hero-enter mt-10 flex flex-col items-start gap-4 sm:flex-row sm:flex-wrap sm:items-center" style={enterDelay(360)}>
+            <button type="button" onClick={() => onOpenFlow('donate')} className="btn-primary">
               Donate surplus food
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-            <a href="#get-involved" className="btn-secondary">
-              Volunteer
-            </a>
-            <a href="#get-involved" className="btn-secondary">
-              Partner as an NGO
-            </a>
+            </button>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold text-forest-700">
+              <button type="button" onClick={() => onOpenFlow('volunteer')} className="underline decoration-forest-700/30 underline-offset-4 transition-colors hover:text-terracotta-700 hover:decoration-terracotta-700">
+                Volunteer
+              </button>
+              <button type="button" onClick={() => onOpenFlow('partner')} className="underline decoration-forest-700/30 underline-offset-4 transition-colors hover:text-terracotta-700 hover:decoration-terracotta-700">
+                Partner as an NGO
+              </button>
+            </div>
           </div>
 
           <a
@@ -55,6 +62,7 @@ export default function Hero() {
                 width={940}
                 height={650}
                 fetchPriority="high"
+                decoding="async"
               />
             </div>
             <figcaption className="float-soft absolute -bottom-6 -left-4 max-w-[15rem] rounded-2xl bg-harvest-400 p-5 text-forest-900 shadow-xl shadow-forest-900/15 sm:-left-10">

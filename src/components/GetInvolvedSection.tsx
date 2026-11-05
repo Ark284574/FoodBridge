@@ -1,12 +1,12 @@
-import { useCallback, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import DemoDialog from '@/components/DemoDialog';
 import Reveal from '@/components/Reveal';
 import { DEMO_FLOWS, type DemoFlow } from '@/data/content';
 
-export default function GetInvolvedSection() {
-  const [activeFlow, setActiveFlow] = useState<DemoFlow | null>(null);
-  const closeDemo = useCallback(() => setActiveFlow(null), []);
+interface GetInvolvedSectionProps {
+  onOpenFlow: (flowId: DemoFlow['id']) => void;
+}
+
+export default function GetInvolvedSection({ onOpenFlow }: GetInvolvedSectionProps) {
 
   return (
     <section id="get-involved" className="py-24 sm:py-32">
@@ -54,7 +54,7 @@ export default function GetInvolvedSection() {
                     <div className="md:col-span-3 md:justify-self-end">
                       <button
                         type="button"
-                        onClick={() => setActiveFlow(flow)}
+                        onClick={() => onOpenFlow(flow.id)}
                         className="btn-secondary w-full md:w-auto"
                       >
                         {flow.cta}
@@ -68,8 +68,6 @@ export default function GetInvolvedSection() {
           })}
         </ul>
       </div>
-
-      {activeFlow && <DemoDialog key={activeFlow.id} flow={activeFlow} onClose={closeDemo} />}
     </section>
   );
 }
