@@ -1,4 +1,7 @@
+
 import { useCallback, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import SiteHeader from '@/components/SiteHeader';
 import Hero from '@/components/Hero';
 import ProblemSection from '@/components/ProblemSection';
@@ -11,20 +14,28 @@ import StoriesSection from '@/components/StoriesSection';
 import GetInvolvedSection from '@/components/GetInvolvedSection';
 import SiteFooter from '@/components/SiteFooter';
 import DemoDialog from '@/components/DemoDialog';
+
+import AdminPage from '@/pages/AdminPage';
+
 import { DEMO_FLOWS, type DemoFlow } from '@/data/content';
 
-function App() {
+function HomePage() {
   const [activeFlow, setActiveFlow] = useState<DemoFlow | null>(null);
-  const closeDemo = useCallback(() => setActiveFlow(null), []);
+
+  const closeDemo = useCallback(() => {
+    setActiveFlow(null);
+  }, []);
+
   const openDemo = useCallback((flowId: DemoFlow['id']) => {
-  const flow = DEMO_FLOWS.find((item) => item.id === flowId);
-  if (flow) {
-  setActiveFlow(flow);
-  } else {
-  console.error('No matching demo flow found:', flowId);
+    const flow = DEMO_FLOWS.find((item) => item.id === flowId);
+
+    if (!flow) {
+      console.error('No matching demo flow found:', flowId);
+      return;
     }
-  if (flow) setActiveFlow(flow);
-}, []);
+
+    setActiveFlow(flow);
+  }, []);
 
   return (
     <div className="min-h-screen bg-ivory-100">
@@ -34,7 +45,9 @@ function App() {
       >
         Skip to content
       </a>
+
       <SiteHeader />
+
       <main id="main">
         <Hero onOpenFlow={openDemo} />
         <ProblemSection />
@@ -46,9 +59,28 @@ function App() {
         <StoriesSection />
         <GetInvolvedSection onOpenFlow={openDemo} />
       </main>
+
       <SiteFooter />
-      {activeFlow && <DemoDialog key={activeFlow.id} flow={activeFlow} onClose={closeDemo} />}
+
+      {activeFlow && (
+        <DemoDialog
+          key={activeFlow.id}
+          flow={activeFlow}
+          onClose={closeDemo}
+        />
+      )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
