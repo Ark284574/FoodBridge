@@ -14,17 +14,18 @@ FoodBridge explores how a simple digital platform can help bridge that gap.
 
 ## Our Solution
 
-FoodBridge provides a central place for donors, NGOs and volunteers to register their interest and submit information.
+FoodBridge provides a central platform where donors, NGOs and volunteers can register their interest and submit information.
 
-An administrative dashboard allows authorised administrators to review submissions and update their statuses.
+An authenticated administrative dashboard allows authorised administrators to review submissions and update their statuses. A separate public, read-only dashboard gives hackathon judges an overview of platform activity without exposing personal submission details.
 
 ## Key Features
 
 - **Food Donation:** Donors can submit surplus food information and collection details.
 - **NGO Registration:** Organisations can submit their details and weekly meal capacity.
 - **Volunteer Registration:** Individuals can register their interest in helping.
-- **Admin Dashboard:** Administrators can review submissions across all three categories.
-- **Status Management:** Administrators can update application and donation statuses.
+- **Admin Dashboard:** Authorised administrators can review submissions across all three categories.
+- **Status Management:** Administrators can update donation and application statuses.
+- **Public Judge Dashboard:** Judges can view an overview of real submissions and their statuses without accessing personal information or modifying records.
 - **Cloud Database:** Supabase stores submitted information.
 - **Authentication:** The administrative dashboard is protected by Supabase authentication.
 
@@ -36,6 +37,15 @@ FoodBridge represents a potential journey:
 
 The platform is designed to support the coordination behind this journey. Actual food collection, transportation and distribution require participating organisations and operational arrangements.
 
+## Dashboards
+
+| Dashboard | Access | Purpose |
+|---|---|---|
+| Admin Dashboard | Authenticated administrators | Review submissions and manage statuses |
+| Judge Dashboard | Public, read-only | View submission counts, categories and statuses |
+
+The Judge Dashboard retrieves limited submission information through a dedicated Supabase database function. It does not display donor names, email addresses or other personal submission details, and does not allow public users to modify records.
+
 ## Technology Stack
 
 | Technology | Purpose |
@@ -45,17 +55,20 @@ The platform is designed to support the coordination behind this journey. Actual
 | Vite | Development and build tooling |
 | Tailwind CSS | Styling |
 | Supabase | Database and authentication |
+| PostgreSQL | Database engine |
 | React Router | Page routing |
 | Lucide React | Icons |
 | Render | Deployment |
+| GitHub | Version control and source code |
 
 ## Live Project
 
 - **Website:** https://foodbridge-ekhu.onrender.com
-- **GitHub:** https://github.com/Ark284574/FoodBridge
+- **Public Judge Dashboard:** https://foodbridge-ekhu.onrender.com/judge
 - **Admin Dashboard:** https://foodbridge-ekhu.onrender.com/admin
+- **GitHub Repository:** https://github.com/Ark284574/FoodBridge
 
-The admin dashboard requires authorised administrator access.
+The admin dashboard requires authorised administrator access. The judge dashboard is publicly accessible and read-only.
 
 ## Running Locally
 
@@ -103,10 +116,18 @@ FoodBridge uses Supabase Row Level Security (RLS) to control access to submitted
 - Public submissions are restricted to pending status.
 - Administrative access requires authentication and an authorised admin account.
 - Administrative actions are governed by database policies.
+- The public Judge Dashboard uses a dedicated database function to expose only limited, non-personal submission information.
+- Public dashboard access does not grant permission to edit or delete submissions.
 
 ## Current Scope and Future Possibilities
 
-The current implementation supports submission storage, administrator review and status updates.
+The current implementation supports:
+
+- Food donation, NGO and volunteer submissions.
+- Supabase database storage.
+- Authenticated administrative access.
+- Submission review and status management.
+- A public, read-only judge dashboard.
 
 Potential future improvements include:
 
