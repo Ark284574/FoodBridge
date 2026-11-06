@@ -13,15 +13,23 @@ export default function DemoDialog({ flow, onClose }: DemoDialogProps) {
   const titleId = useId();
 
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (!dialog.open) dialog.showModal();
-    dialog.addEventListener('close', onClose);
-    return () => {
-      dialog.removeEventListener('close', onClose);
-      if (dialog.open) dialog.close();
-    };
-  }, [onClose]);
+  const dialog = dialogRef.current;
+  if (!dialog) return;
+
+  const handleClose = () => {
+    onClose();
+  };
+
+  if (!dialog.open) {
+    dialog.showModal();
+  }
+
+  dialog.addEventListener('close', handleClose);
+
+  return () => {
+    dialog.removeEventListener('close', handleClose);
+  };
+}, [onClose]);
 
   const handleBackdropClick = (event: MouseEvent<HTMLDialogElement>) => {
     if (event.target === event.currentTarget) event.currentTarget.close();

@@ -17,9 +17,14 @@ function App() {
   const [activeFlow, setActiveFlow] = useState<DemoFlow | null>(null);
   const closeDemo = useCallback(() => setActiveFlow(null), []);
   const openDemo = useCallback((flowId: DemoFlow['id']) => {
-    const flow = DEMO_FLOWS.find((item) => item.id === flowId);
-    if (flow) setActiveFlow(flow);
-  }, []);
+  const flow = DEMO_FLOWS.find((item) => item.id === flowId);
+  if (flow) {
+  setActiveFlow(flow);
+  } else {
+  console.error('No matching demo flow found:', flowId);
+    }
+  if (flow) setActiveFlow(flow);
+}, []);
 
   return (
     <div className="min-h-screen bg-ivory-100">
