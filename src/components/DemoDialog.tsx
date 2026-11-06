@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent, type MouseEvent } from 'react';
 import { Check, X } from 'lucide-react';
 import type { DemoFlow } from '@/data/content';
+import { submitDemoFlow } from '@/lib/submissions';
 
 interface DemoDialogProps {
   flow: DemoFlow;
@@ -10,6 +11,8 @@ interface DemoDialogProps {
 export default function DemoDialog({ flow, onClose }: DemoDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const titleId = useId();
 
   useEffect(() => {
@@ -35,10 +38,29 @@ export default function DemoDialog({ flow, onClose }: DemoDialogProps) {
     if (event.target === event.currentTarget) event.currentTarget.close();
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
+
+  const formData = new FormData(event.currentTarget);
+
+  setSubmitting(true);
+  setErrorMessage('');
+
+  try {
+    await submitDemoFlow(flow.id, formData);
     setSubmitted(true);
-  };
+  } catch (error) {
+    console.error('FoodBridge submission failed:', error);
+
+    setErrorMessage(
+      error instanceof Error
+        ? error.message
+        : 'Something went wrong. Please try again.'
+    );
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <dialog
@@ -63,11 +85,10 @@ export default function DemoDialog({ flow, onClose }: DemoDialogProps) {
               <Check className="h-6 w-6" aria-hidden="true" />
             </span>
             <h2 id={titleId} className="display mt-6 text-3xl text-forest-700">
-              Demo complete. Nothing was sent.
+              Your request has been received.
             </h2>
             <p className="mt-4 text-base leading-relaxed text-ink-700">
-              This page does not yet submit donations, volunteer sign-ups or partnership requests. When FoodBridge is
-              live, this form will reach a real coordination team.
+              Your submission has been saved to FoodBridge and is currently awaiting review. Thank you for being part of the journey.
             </p>
             <button type="button" onClick={() => dialogRef.current?.close()} className="btn-primary mt-8">
               Back to the page
@@ -87,12 +108,18 @@ export default function DemoDialog({ flow, onClose }: DemoDialogProps) {
               ))}
             </div>
 
-            <p className="mt-6 text-xs leading-relaxed text-ink-500">
-              This is a practice run. Your answers stay in this window and are not stored or sent anywhere.
+            {errorMessage && (
+             <p role="alert" className="mt-4 text-sm text-red-700">
+              {errorMessage}
             </p>
+         )}
 
-            <button type="submit" className="btn-primary mt-6 w-full">
-              {flow.cta}
+            <button
+              type="submit"
+              disabled={submitting}
+              className="btn-primary mt-6 w-full disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? 'Submitting...' : flow.cta}
             </button>
           </form>
         )}
