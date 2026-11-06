@@ -16,6 +16,7 @@ import SiteFooter from '@/components/SiteFooter';
 import DemoDialog from '@/components/DemoDialog';
 
 import AdminPage from '@/pages/AdminPage';
+import JudgePage from '@/pages/JudgePage';
 
 import { DEMO_FLOWS, type DemoFlow } from '@/data/content';
 
@@ -77,8 +78,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public FoodBridge homepage */}
         <Route path="/" element={<HomePage />} />
+
+        {/* Private administrator dashboard */}
         <Route path="/admin" element={<AdminPage />} />
+
+        {/* Public read-only judge dashboard */}
+        <Route path="/judge" element={<JudgePage />} />
       </Routes>
     </BrowserRouter>
   );
